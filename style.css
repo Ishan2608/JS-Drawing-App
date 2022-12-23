@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@300&display=swap');
+
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body{
+    background-color: rgb(202, 200, 200);
+}
+
+/* Style the Header of the Application */
+
+header{
+    width: 100%;
+    height: 80px;
+}
+
+header h1{
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 3rem;
+}
+
+/* Style the Main Application Area */
+
+#main-app{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 2fr 8fr;
+}
+
+/* Styling the Left portion of the Application */
+
+/*Universal style of left*/
+#left{
+    background-color: #1e1e1e;
+    padding: 20px 10px;
+    color: white;
+}
+
+/* Style the buttons of the left*/
+
+#left .btn:hover, #left #download:hover{
+    cursor: pointer;
+    background-color: #1e1e1e;
+    color: white;
+    border: 1px solid white;
+}
+
+/*heading of left*/
+#left h1{
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+
+/*general style for  a controller*/
+#left div.controller{
+    border-bottom: 1px solid white;
+    margin-bottom: 20px;
+    padding: 0 0 20px 0;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/*style of the width controller*/
+
+#left .width-control h3{
+    margin-right: 30px;
+}
+
+#left .width-control .btns button.inc-width, #left .width-control .btns button.dec-width{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-weight: bolder;
+    margin-left: 5px;
+}
+
+#left .width-control button.inc-width:hover, 
+#left .width-control button.dec-width:hover{
+    transform: scale(1.1);
+}
+
+/*style of the color controller*/
+.color-control{
+    display: flex;
+}
+
+.color-control input[type="color"]{
+    margin-left: 20px;
+}
+
+.color-control input[type="color"]:hover{
+    cursor: pointer;
+}
+
+/* style the download button*/ 
+#left #download, #left .clear{
+    width: 100%;
+    border: none;
+    padding: 10px 8px;
+    font-size: 1.2rem;
+    font-weight: bolder;
+    border-radius: 2px;
+    margin-bottom: 5px;
+}
+
+/* style the right portion of the main application */
+
+/* universal style of the left */
+#right{
+    /* background-color: #2e2e2e; */
+    background-color: crimson;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*give appropriate dimensions to the canvas in the right portion*/
+#right #canvas{
+    width: 99%;
+    height: 99%;
+    box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.438);
+}
+
+/*Media Query for Responsiveness*/
+@media (max-width: 900px){
+    #main-app{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+}
