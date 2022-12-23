@@ -9,17 +9,16 @@
 
 body{
     background-color: rgb(202, 200, 200);
+    height: 100vh;
 }
 
 /* Style the Header of the Application */
 
 header{
     width: 100%;
-    height: 80px;
 }
 
 header h1{
-    width: 100%;
     padding: 10px;
     text-align: center;
     vertical-align: middle;
@@ -44,6 +43,54 @@ header h1{
     color: white;
 }
 
+/*general style for  a controller*/
+#left .controller{
+    border-bottom: 1px solid white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/* Style the Div to Choose the Pen or Eraser*/
+
+#left .choose-pen{
+    display: flex;
+    justify-content: start;
+    gap: 10px;
+}
+
+#left .choose-pen .i-container{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+#left .choose-pen .i-container:hover{
+    cursor: pointer;
+}
+
+#left .choose-pen .i-container.active{
+    background-color: white;
+    color: #101010;
+    border: 1px solid #101010;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    box-shadow: 3px 3px 10px black;
+}
+
+#left .choose-pen i{
+    font-size: 20px;
+}
+
 /* Style the buttons of the left*/
 
 #left .btn:hover, #left #download:hover{
@@ -59,24 +106,14 @@ header h1{
     margin-bottom: 20px;
 }
 
-
-/*general style for  a controller*/
-#left div.controller{
-    border-bottom: 1px solid white;
-    margin-bottom: 20px;
-    padding: 0 0 20px 0;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-
 /*style of the width controller*/
 
 #left .width-control h3{
     margin-right: 30px;
 }
 
-#left .width-control .btns button.inc-width, #left .width-control .btns button.dec-width{
+#left .width-control .btns button.inc-width, 
+#left .width-control .btns button.dec-width{
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -102,7 +139,7 @@ header h1{
     cursor: pointer;
 }
 
-/* style the download button*/ 
+/* style the download button and clear button*/ 
 #left #download, #left .clear{
     width: 100%;
     border: none;
@@ -126,9 +163,9 @@ header h1{
 
 /*give appropriate dimensions to the canvas in the right portion*/
 #right #canvas{
-    width: 99%;
-    height: 99%;
-    box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.438);
+    width: 96%;
+    height: 96%;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.521);
 }
 
 /*Media Query for Responsiveness*/
@@ -136,5 +173,19 @@ header h1{
     #main-app{
         display: flex;
         flex-direction: column-reverse;
+    }
+
+    #main-app #left{
+        height: 40%;
+    }
+
+    #main-app #right{
+        height: 60%;
+    }
+}
+
+@media (max-width: 725px){
+    header h1{
+        font-size: 2rem;
     }
 }

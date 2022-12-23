@@ -1,3 +1,6 @@
+const brush = document.querySelector("#brush");
+const eraser = document.querySelector("#eraser");
+const pens = document.querySelectorAll("i-container");
 const color = document.querySelector("#color-picker");
 const canvas_bg_color = document.querySelector("#bg-color")
 const width_val = document.querySelector(".width-val");
@@ -29,6 +32,18 @@ width_val.textContent = `${ctx.lineWidth}`;
 canvas.style.backgroundColor = "white";
 
 
+// Choose Brush or Eraser
+
+brush.addEventListener('click', ()=>{
+    eraser.classList.remove("active")
+    brush.classList.add("active")
+});
+
+eraser.addEventListener('click', ()=>{
+    brush.classList.remove('active')
+    eraser.classList.add("active");
+})
+
 // Functionality to Change color of the brush
 
 color.addEventListener('change', (e)=>{
@@ -54,11 +69,6 @@ dec_btn.addEventListener('click', ()=>{
 
 // Drawing on our Canvas
 
-// canvas.addEventListener("click", (e)=>{
-//     console.log(e.offsetX, e.offsetY)
-//     console.log(canvas.width, canvas.height)
-// })
-
 // 1. first see if we should draw or not
 canvas.addEventListener("mousedown", (e) => is_drawing = true);
 canvas.addEventListener("mouseup", (e) => is_drawing = false);
@@ -67,22 +77,14 @@ canvas.addEventListener("mouseup", (e) => is_drawing = false);
 // 2. now make a line wherever the mouse goes
 canvas.addEventListener("mousemove", function(e){
 
-    // var rect = e.target.getBoundingClientRect();
-    // var x = e.offsetX - rect.left; //x position within the element.
-    // var y = e.offsetY - rect.top;  //y position within the element.
-
     mouse_coords = getMousePos(canvas, e)
 
     if(prevX == null || prevY == null || !is_drawing){
-        // prevX = e.offsetX;
-        // prevY = e.offsetY;
+
         prevX = mouse_coords.x;
         prevY = mouse_coords.y;
         return;
     }
-
-    // current_X = e.offsetX;
-    // current_Y = e.offsetY;
     
     current_X = mouse_coords.x;
     current_Y = mouse_coords.y;
