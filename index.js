@@ -84,6 +84,7 @@ function start_script(){
             width_val.textContent = eraser.offsetWidth;
         } else{
             eraser.style.display = "none";
+            width_val.textContent = ctx.lineWidth;
         }
     }
 
@@ -105,6 +106,23 @@ function start_script(){
         let width = eraser.offsetWidth;
         let height = eraser.offsetHeight;
         return {w: width, h: height}
+    }
+
+    function setAndDisplayEraserDimensions(action){
+        eraser_dims = getEraserDimensions();
+
+        if (action === "+"){
+            eraser_dims.w += 5;
+            eraser_dims.h += 5;
+        }
+        else if (action === "-"){
+            eraser_dims.w -= 5;
+            eraser_dims.h -= 5;
+        }
+
+        eraser.style.width = `${eraser_dims.w}px`;
+        eraser.style.height = `${eraser_dims.h}px`;
+        width_val.textContent = `${eraser_dims.w}`;
     }
 
     // -------------------------------------------------------------
@@ -147,13 +165,7 @@ function start_script(){
             width_val.textContent = `${ctx.lineWidth}`;
         }
         else{
-            
-            eraser_dims = getEraserDimensions();
-            eraser_dims.w += 5;
-            eraser_dims.h += 5;
-            eraser.style.width = `${eraser_dims.w}px`;
-            eraser.style.height = `${eraser_dims.h}px`;
-            width_val.textContent = `${eraser_dims.w}`;
+            setAndDisplayEraserDimensions("+")
         }
     })
 
@@ -163,12 +175,7 @@ function start_script(){
             width_val.textContent = `${ctx.lineWidth}`;
         }
         else{
-            eraser_dims = getEraserDimensions();
-            eraser_dims.w -= 5;
-            eraser_dims.h -= 5;
-            eraser.style.width = `${eraser_dims.w}px`;
-            eraser.style.height = `${eraser_dims.h}px`;
-            width_val.textContent = `${eraser_dims.w}`;
+            setAndDisplayEraserDimensions("-")
         }
     })
 
