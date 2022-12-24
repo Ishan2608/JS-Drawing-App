@@ -91,6 +91,17 @@ header h1{
     font-size: 20px;
 }
 
+/* Style Eraser*/
+.eraser{
+    width: 50px;
+    height: 50px;
+    border: 2px solid #101010;
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 /* Style the buttons of the left*/
 
 #left .btn:hover, #left #download:hover{
