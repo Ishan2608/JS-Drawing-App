@@ -108,6 +108,8 @@ function start_script(){
         return {w: width, h: height}
     }
 
+
+    // set the new values of eraser and display them
     function setAndDisplayEraserDimensions(action){
         eraser_dims = getEraserDimensions();
 
@@ -124,6 +126,14 @@ function start_script(){
         eraser.style.height = `${eraser_dims.h}px`;
         width_val.textContent = `${eraser_dims.w}`;
     }
+
+    // make the eraser trace mouse positions
+    function eraserTraceMouse(e){
+        eraser.style.left = e.pageX + 'px';
+        eraser.style.top = e.pageY + 'px';
+        eraser.style.transform = "translate(-50%, -50%)";
+    }
+
 
     // -------------------------------------------------------------
     // DEFINING EVENT LISTENERS
@@ -146,6 +156,8 @@ function start_script(){
         choice = "Eraser";
         // display the pen and its size
         setChoice()
+
+        // make the eraser trace mouse coordinates
     })
 
     // Functionality to Change color of the brush
@@ -220,10 +232,10 @@ function start_script(){
         }
 
         // If the user has chosen eraser, display the eraser and move it.
-        else{
-            eraser.style.top = mouse_coords.x;
-            eraser.style.left = mouse_coords.y; 
-            
+        else if(choice === "Eraser"){
+            if (mouse_coords.x < canvas.width && mouse_coords.y < canvas.height){
+                eraserTraceMouse(e)
+            }
         }
     })
 
