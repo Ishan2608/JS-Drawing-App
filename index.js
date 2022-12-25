@@ -1,3 +1,16 @@
+// APPROACH TO MAKE THE APP WORK
+/*
+1. Make the canvas draw line from its previous position on canvas to its current position
+2. This happens for the event, mousemove
+3. To make sure user should also click, we set is_drawing variable to true when mouse is pressed.
+4. When mouse button is lifted, we set is_drawing to false.
+5. To make an eraser, simply set the color of line to the background color. 
+And make the option to change line color hidden when eraser is selected.
+6. Set the option back to visible when the user clicks on the brush option.
+7. For clear button, simply make a clearRect as big as canvas, with background color equal to bg color.
+*/
+
+
 document.addEventListener('DOMContentLoaded', start_script);
 
 function start_script(){
@@ -16,6 +29,8 @@ function start_script(){
 
     // SELECT THE COLOR PICKERS OF OUR APP
 
+    // select the container for showing and selecting line color
+    const line_color_container = document.querySelector('.line-color-container');
     // brush color picker
     const color = document.querySelector("#color-picker");
     // canvas background color picker
@@ -46,10 +61,10 @@ function start_script(){
     let current_X = 0;
     let current_Y = 0;
     let is_drawing = false;
+    const BG_COLOR = "#ffffff";
+    const PEN_COLOR = "#000000";
 
-    let mouse_coords = null
-
-    ctx.strokeStyle = 'black'
+    let mouse_coords = null;
 
     let choice = "Brush";
 
@@ -64,11 +79,20 @@ function start_script(){
     }
 
     else{
+        ctx.lineWidth = 10;
         width_val.textContent = `${eraser.offsetWidth}`;
     }
+    // set initial colors
+    color.value = PEN_COLOR;
+    canvas_bg_color.value = BG_COLOR;
 
+    console.log(color.value);
+    console.log(canvas_bg_color.value)
+
+    // initial pen color
+    ctx.strokeStyle = PEN_COLOR;
     // initial canvas background
-    canvas.style.backgroundColor = "white";
+    canvas.style.backgroundColor = BG_COLOR;
 
     // -------------------------------------------------------------
     // DEFINING UTILITY FUNCTIONS
@@ -122,18 +146,20 @@ function start_script(){
             eraser_dims.h -= 5;
         }
 
+        ctx.lineWidth = eraser_dims.x;
+
         eraser.style.width = `${eraser_dims.w}px`;
         eraser.style.height = `${eraser_dims.h}px`;
         width_val.textContent = `${eraser_dims.w}`;
     }
 
-    // make the eraser trace mouse positions
-    function eraserTraceMouse(e){
-        eraser.style.left = e.pageX + 'px';
-        eraser.style.top = e.pageY + 'px';
-        eraser.style.transform = "translate(-50%, -50%)";
-    }
-
+    // make the eraser trace mouse positions if you want to set position of eraser to absolute 
+    // and move it with mouse
+    // function eraserTraceMouse(e){
+    //     eraser.style.left = e.pageX + 'px';
+    //     eraser.style.top = e.pageY + 'px';
+    //     eraser.style.transform = "translate(-50%, -50%)";
+    // }
 
     // -------------------------------------------------------------
     // DEFINING EVENT LISTENERS
@@ -144,6 +170,11 @@ function start_script(){
         eraser_icon.classList.remove("active");
         brush_icon.classList.add("active");
         choice = "Brush";
+        line_color_container.style.display = "block";
+        line_color_container.style.display = "flex";
+        ctx.strokeStyle = '#000000';
+        color.value = '#000000'
+
         // display the pen and its size
         setChoice()
     });
@@ -152,22 +183,15 @@ function start_script(){
     eraser_icon.addEventListener('click', ()=>{
         brush_icon.classList.remove('active');
         eraser_icon.classList.add("active");
-        is_drawing = false;
         choice = "Eraser";
+        line_color_container.style.display = "none";
+        ctx.strokeStyle = `${canvas_bg_color.value}`;
+        color.value = canvas_bg_color.value;
+
         // display the pen and its size
         setChoice()
 
         // make the eraser trace mouse coordinates
-    })
-
-    // Functionality to Change color of the brush
-    color.addEventListener('change', (e)=>{
-        ctx.strokeStyle = `${color.value}`;
-    })
-
-    // functionality to add background color to canvas
-    canvas_bg_color.addEventListener('change', ()=>{
-        canvas.style.backgroundColor=`${canvas_bg_color.value}`;
     })
 
     // Functionality of our Width Controller Buttons
@@ -191,15 +215,31 @@ function start_script(){
         }
     })
 
+    // Functionality to Change color of the brush
+    color.addEventListener('change', (e)=>{
+        ctx.strokeStyle = `${color.value}`;
+    })
 
+    // functionality to add background color to canvas
+    canvas_bg_color.addEventListener('change', ()=>{
+        canvas.style.backgroundColor=`${canvas_bg_color.value}`;
+    })
 
     // -------------------------------------------------------------
     // DRAWING ON CANVAS
     // -------------------------------------------------------------
 
     // 1. first see if we should draw or not
-    canvas.addEventListener("mousedown", (e) => is_drawing = true);
-    canvas.addEventListener("mouseup", (e) => is_drawing = false);
+    canvas.addEventListener("mousedown", (e) => {
+        if (choice === "Brush"){
+            is_drawing = true;
+        }
+    });
+    canvas.addEventListener("mouseup", (e) => {
+        if (choice === "Brush"){
+            is_drawing = false
+        }
+    });
 
 
     // 2. now make a line wherever the mouse goes
@@ -207,36 +247,28 @@ function start_script(){
 
         mouse_coords = getMousePos(canvas, e)
 
-        if(choice === "Brush"){
-
-            // set the starting point of the line to draw
-            if(prevX == null || prevY == null || !is_drawing){
-                prevX = mouse_coords.x;
-                prevY = mouse_coords.y;
-                return;
-            }
-            
-            // set the current point, till which we draw line
-            current_X = mouse_coords.x;
-            current_Y = mouse_coords.y;
-
-            // draw line
-            ctx.beginPath();
-            ctx.moveTo(prevX, prevY);
-            ctx.lineTo(current_X, current_Y);
-            ctx.stroke();
-
-            // set prev point to current point for next points
-            prevX = current_X;
-            prevY = current_Y;
+        // set the starting point of the line to draw
+        if(prevX == null || prevY == null || !is_drawing){
+            prevX = mouse_coords.x;
+            prevY = mouse_coords.y;
+            return;
         }
+        
+        // set the current point, till which we draw line
+        current_X = mouse_coords.x;
+        current_Y = mouse_coords.y;
 
-        // If the user has chosen eraser, display the eraser and move it.
-        else if(choice === "Eraser"){
-            if (mouse_coords.x < canvas.width && mouse_coords.y < canvas.height){
-                eraserTraceMouse(e)
-            }
-        }
+        // draw line
+        ctx.beginPath();
+        ctx.moveTo(prevX, prevY);
+        ctx.lineTo(current_X, current_Y);
+        ctx.stroke();
+
+        // set prev point to current point for next points
+        prevX = current_X;
+        prevY = current_Y;
+        
+
     })
 
 
