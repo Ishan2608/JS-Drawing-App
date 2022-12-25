@@ -10,8 +10,13 @@ And make the option to change line color hidden when eraser is selected.
 7. For clear button, simply make a clearRect as big as canvas, with background color equal to bg color.
 */
 
+// -------------------------------------------------------------
+// Start the script only when entire DOM content is loaded
+// -------------------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', start_script);
+
+// A function that manages working of the entire application.
 
 function start_script(){
     // -------------------------------------------------------------
@@ -60,17 +65,14 @@ function start_script(){
     let prevY = null;
     let current_X = 0;
     let current_Y = 0;
+    let mouse_coords = null;
     let is_drawing = false;
+    let choice = "Brush";
     const BG_COLOR = "#ffffff";
     const PEN_COLOR = "#000000";
 
-    let mouse_coords = null;
-
-    let choice = "Brush";
-
     // Display the initial Values of pen and its size
     setChoice()
-
 
     // initial size display
     if (choice === "Brush"){
@@ -79,7 +81,7 @@ function start_script(){
     }
 
     else{
-        ctx.lineWidth = 10;
+        ctx.lineWidth = 20;
         width_val.textContent = `${eraser.offsetWidth}`;
     }
     // set initial colors
@@ -157,14 +159,6 @@ function start_script(){
         width_val.textContent = `${eraser_dims.w}`;
     }
 
-    // make the eraser trace mouse positions if you want to set position of eraser to absolute 
-    // and move it with mouse
-    // function eraserTraceMouse(e){
-    //     eraser.style.left = e.pageX + 'px';
-    //     eraser.style.top = e.pageY + 'px';
-    //     eraser.style.transform = "translate(-50%, -50%)";
-    // }
-
     // -------------------------------------------------------------
     // DEFINING EVENT LISTENERS
     // -------------------------------------------------------------
@@ -175,7 +169,7 @@ function start_script(){
         brush_icon.classList.add("active");
         choice = "Brush";
         ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 4;
         color.value = '#000000'
         line_color_container.style.display = "block";
         line_color_container.style.display = "flex";
