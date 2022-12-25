@@ -87,7 +87,7 @@ function start_script(){
     canvas_bg_color.value = BG_COLOR;
 
     console.log(color.value);
-    console.log(canvas_bg_color.value)
+    console.log(canvas_bg_color.value);
 
     // initial pen color
     ctx.strokeStyle = PEN_COLOR;
@@ -138,15 +138,19 @@ function start_script(){
         eraser_dims = getEraserDimensions();
 
         if (action === "+"){
-            eraser_dims.w += 5;
-            eraser_dims.h += 5;
+            eraser_dims.w += 1;
+            eraser_dims.h += 1;
         }
         else if (action === "-"){
-            eraser_dims.w -= 5;
-            eraser_dims.h -= 5;
+            eraser_dims.w -= 1;
+            eraser_dims.h -= 1;
+            if(eraser_dims.w <= 0){ eraser_dims.w = 1}
+            if(eraser_dims.h <= 0){ eraser_dims.w = 1}
         }
 
-        ctx.lineWidth = eraser_dims.x;
+
+        ctx.lineWidth = eraser_dims.w;
+        // console.log("Eraser size is: ", ctx.lineWidth);
 
         eraser.style.width = `${eraser_dims.w}px`;
         eraser.style.height = `${eraser_dims.h}px`;
@@ -170,10 +174,11 @@ function start_script(){
         eraser_icon.classList.remove("active");
         brush_icon.classList.add("active");
         choice = "Brush";
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 2;
+        color.value = '#000000'
         line_color_container.style.display = "block";
         line_color_container.style.display = "flex";
-        ctx.strokeStyle = '#000000';
-        color.value = '#000000'
 
         // display the pen and its size
         setChoice()
@@ -184,9 +189,9 @@ function start_script(){
         brush_icon.classList.remove('active');
         eraser_icon.classList.add("active");
         choice = "Eraser";
-        line_color_container.style.display = "none";
-        ctx.strokeStyle = `${canvas_bg_color.value}`;
         color.value = canvas_bg_color.value;
+        ctx.strokeStyle = `${canvas_bg_color.value}`;
+        line_color_container.style.display = "none";
 
         // display the pen and its size
         setChoice()
@@ -208,6 +213,7 @@ function start_script(){
     dec_btn.addEventListener('click', ()=>{
         if (choice === "Brush"){
             ctx.lineWidth--;
+            if (ctx.lineWidth <=0){ctx.lineWidth = 1}
             width_val.textContent = `${ctx.lineWidth}`;
         }
         else{
@@ -217,7 +223,9 @@ function start_script(){
 
     // Functionality to Change color of the brush
     color.addEventListener('change', (e)=>{
-        ctx.strokeStyle = `${color.value}`;
+        if (choice === "Brush"){
+            ctx.strokeStyle = `${color.value}`;
+        }
     })
 
     // functionality to add background color to canvas
@@ -231,14 +239,10 @@ function start_script(){
 
     // 1. first see if we should draw or not
     canvas.addEventListener("mousedown", (e) => {
-        if (choice === "Brush"){
-            is_drawing = true;
-        }
+        is_drawing = true;
     });
     canvas.addEventListener("mouseup", (e) => {
-        if (choice === "Brush"){
-            is_drawing = false
-        }
+        is_drawing = false
     });
 
 
@@ -268,7 +272,6 @@ function start_script(){
         prevX = current_X;
         prevY = current_Y;
         
-
     })
 
 
