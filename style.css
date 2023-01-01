@@ -9,30 +9,11 @@
 
 body{
     background-color: rgb(202, 200, 200);
-    height: 100vh;
-}
-
-/* Style the Header of the Application */
-
-header{
-    width: 100%;
-}
-
-header h1{
-    padding: 10px;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 3rem;
-}
-
-/* Style the Main Application Area */
-
-#main-app{
-    width: 100%;
-    height: 100%;
+    min-height: 100vh;
     display: grid;
-    grid-template-columns: 2fr 8fr;
+    grid-template-columns: 1fr 3fr;
 }
+
 
 /* Styling the Left portion of the Application */
 
@@ -41,7 +22,9 @@ header h1{
     background-color: #1e1e1e;
     padding: 20px 10px;
     color: white;
+    height: 100%;
 }
+
 
 /*general style for  a controller*/
 #left .controller{
@@ -168,28 +151,37 @@ header h1{
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100%;
 }
 
 /*give appropriate dimensions to the canvas in the right portion*/
 #right #canvas{
-    width: 96%;
-    height: 96%;
+    display: block;
+    width: 95%;
+    min-width: 95%;
+    height: 95%;
+    min-height: 95%;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.521);
 }
 
 /*Media Query for Responsiveness*/
 @media (max-width: 900px){
-    #main-app{
+    body{
         display: flex;
         flex-direction: column-reverse;
     }
 
-    #main-app #left{
+    #left{
         height: 40%;
     }
 
-    #main-app #right{
-        height: 60%;
+    #right{
+        min-height: 60vh;
+    }
+
+    #right #canvas{
+        height: 58vh;
+        width: 97%;
     }
 }
 

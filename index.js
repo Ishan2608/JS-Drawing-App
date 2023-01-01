@@ -114,16 +114,15 @@ function start_script(){
         }
     }
 
-
     // get mouse coordinates inside the canvas
     function getMousePos(canvas, evt) {
-        var rect = canvas.getBoundingClientRect(), 
-        scaleX = canvas.width / rect.width, 
+        let rect = canvas.getBoundingClientRect();
+        scaleX = canvas.width / rect.width;
         scaleY = canvas.height / rect.height;
     
         return {
-        x: (evt.clientX - rect.left) * scaleX,
-        y: (evt.clientY - rect.top) * scaleY
+            x: (evt.clientX - rect.left) * scaleX,
+            y: (evt.clientY - rect.top) * scaleY
         }
     }
 
@@ -131,7 +130,7 @@ function start_script(){
     function getEraserDimensions(){
         let width = eraser.offsetWidth;
         let height = eraser.offsetHeight;
-        return {w: width, h: height}
+        return {w: width, h: height};
     }
 
 
@@ -157,6 +156,33 @@ function start_script(){
         eraser.style.width = `${eraser_dims.w}px`;
         eraser.style.height = `${eraser_dims.h}px`;
         width_val.textContent = `${eraser_dims.w}`;
+    }
+    
+
+    // function that draws on canvas
+    function drawLine(e){
+        mouse_coords = getMousePos(canvas, e)
+
+        // set the starting point of the line to draw
+        if(prevX == null || prevY == null || !is_drawing){
+            prevX = mouse_coords.x;
+            prevY = mouse_coords.y;
+            return;
+        }
+        
+        // set the current point, till which we draw line
+        current_X = mouse_coords.x;
+        current_Y = mouse_coords.y;
+
+        // draw line
+        ctx.beginPath();
+        ctx.moveTo(prevX, prevY);
+        ctx.lineTo(current_X, current_Y);
+        ctx.stroke();
+
+        // set prev point to current point for next points
+        prevX = current_X;
+        prevY = current_Y;
     }
 
     // -------------------------------------------------------------
@@ -235,38 +261,14 @@ function start_script(){
     canvas.addEventListener("mousedown", (e) => {
         is_drawing = true;
     });
+
     canvas.addEventListener("mouseup", (e) => {
         is_drawing = false
     });
 
 
     // 2. now make a line wherever the mouse goes
-    canvas.addEventListener("mousemove", function(e){
-
-        mouse_coords = getMousePos(canvas, e)
-
-        // set the starting point of the line to draw
-        if(prevX == null || prevY == null || !is_drawing){
-            prevX = mouse_coords.x;
-            prevY = mouse_coords.y;
-            return;
-        }
-        
-        // set the current point, till which we draw line
-        current_X = mouse_coords.x;
-        current_Y = mouse_coords.y;
-
-        // draw line
-        ctx.beginPath();
-        ctx.moveTo(prevX, prevY);
-        ctx.lineTo(current_X, current_Y);
-        ctx.stroke();
-
-        // set prev point to current point for next points
-        prevX = current_X;
-        prevY = current_Y;
-        
-    })
+    canvas.addEventListener("mousemove", drawLine);
 
 
     // Adding functionality to our clear and download buttons
