@@ -146,7 +146,7 @@ function start_script(){
             eraser_dims.w -= 1;
             eraser_dims.h -= 1;
             if(eraser_dims.w <= 0){ eraser_dims.w = 1}
-            if(eraser_dims.h <= 0){ eraser_dims.w = 1}
+            if(eraser_dims.h <= 0){ eraser_dims.h = 1}
         }
 
 
@@ -285,6 +285,4 @@ function start_script(){
         a.download = "drawing.png"
         a.click()
     })
-
-
 }
